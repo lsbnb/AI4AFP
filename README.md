@@ -16,9 +16,9 @@ AI4AFP (Artificial Intelligence for Anti-Fungal Peptides) is an open-source tool
   - *BERT*: Employs deep learning to capture contextual relationships in sequences.
   - *PC6*: A physicochemical-based embedding approach for feature representation.
 - **Machine Learning Models**:
-  -SVM (Support Vector Machine): A robust classification algorithm.
-  -Random Forest: An ensemble learning method based on decision trees.
-  -CNN (Convolutional Neural Network): A deep learning model for feature extraction and classification.
+  -*SVM (Support Vector Machine)*: A robust classification algorithm.
+  -*Random Forest*: An ensemble learning method based on decision trees.
+  -*CNN (Convolutional Neural Network)*: A deep learning model for feature extraction and classification.
 - **Evaluation Metrics**: Uses K-fold cross-validation, confusion matrices, ROC curves, and precision-recall analysis.
 
 
