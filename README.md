@@ -5,7 +5,7 @@ AI4AFP (Artificial Intelligence for Anti-Fungal Peptides) is an open-source tool
 
 ## Key Features
 1. **Sequence Encoding**: Implements advanced natural language processing techniques, including Doc2Vec and BERT with our previous approach, [PC6](https://github.com/wccheng1210/AI4AFP/blob/main/PC6_encoding.py), to transform peptide sequences into machine-readable vector representations.
-2. **Multi-model Prediction**: Integrates multiple machine learning algorithms (such as Logistic Regression, Random Forest, and XGBoost) to enhance prediction accuracy.
+2. **Multi-model Prediction**: Integrates multiple machine learning algorithms (such as SVM, Random Forest, and CNN) to enhance prediction accuracy.
 3. **Cross-validation**: Utilizes K-fold cross-validation to ensure model robustness and generalization.
 4. **Model Ensemble**: Aggregates predictions from multiple models to improve overall performance.
 
