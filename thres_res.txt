@@ -1,0 +1,4 @@
+PC6 threshold = 0.5191225
+Doc2Vec threshold = 0.37538743
+Bert model threshold = 0.99014366
+Ensemble model threshold = 0.6346653

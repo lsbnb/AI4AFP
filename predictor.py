@@ -34,13 +34,13 @@ def main(fasta_path, output_name):
 
     Doc2vec_rf_model = joblib.load('ensemble_model/doc2vec/doc2vec_features_forest.pkl')
     Doc2vec_rf_labels_score = Doc2vec_rf_model.predict(data_Doc2Vec)
-    
-    bert_test_score = seq_bert_prediction(fasta_path, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
-    
+    print(Doc2vec_rf_labels_score)
+    #bert_score = [1 1 1 1 1 0 1 0 0 0]
+    bert_score = seq_bert_prediction(fasta_path, 0.99, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
+    print(bert_score)
     in_size = len(Doc2vec_svc_labels_score)
-    pc6_thres = 0.4984
-    doc2vec_thres = 0.7526
-    bert_thres = 0.9892
+    pc6_thres = 0.5191
+    doc2vec_thres = 0.3754
 
     in_ensembleX_list = []
     for i in range(in_size):
@@ -58,13 +58,7 @@ def main(fasta_path, output_name):
             score_list.append(float('1'))
         else:
             score_list.append(float('0'))
-            
-        
-        if(bert_test_score[i] >= bert_thres):
-            score_list.append(float('1'))
-        else:
-            score_list.append(float('0'))
-        
+        score_list.append(float(bert_score[i]))
         in_ensembleX_list.append(score_list)
     in_ensembleX = np.array(in_ensembleX_list)
 
@@ -73,7 +67,7 @@ def main(fasta_path, output_name):
     
     # make dataframe
     #for s in pred_score:
-    classifier = pred_score > 0.8563
+    classifier = pred_score > 0.6347
     df = pd.DataFrame(pred_score)
     df.insert(0,'Peptide' ,dat.keys())
     df.insert(2,'Prediction results', classifier)
@@ -84,7 +78,7 @@ def main(fasta_path, output_name):
 
 #arg
 if __name__ == '__main__':   
-    parser = argparse.ArgumentParser(description='AI4Surfaceome ensemble predictor')
+    parser = argparse.ArgumentParser(description='AI4AFP ensemble predictor')
     parser.add_argument('-f','--fasta_name',help='input fasta path',required=True)
     parser.add_argument('-o','--output_csv',help='output csv name',required=True)
     args = parser.parse_args()

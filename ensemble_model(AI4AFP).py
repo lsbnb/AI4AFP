@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from PC6_encoding import get_PC6_features_labels
 from doc2vec import get_Doc2Vec_features_labels
-from bert_encoding import get_bert_features_labels
+#from bert_encoding import get_bert_features_labels
 
 # Load data
 pos_train_data = './seq_data/afp_pos_seq_len50ensembletrain_2108.fasta'
@@ -36,9 +36,9 @@ doc2vec_test_features, doc2vec_test_labels = get_Doc2Vec_features_labels(pos_tes
 reshape_doc2vec_test_features=doc2vec_test_features.reshape((doc2vec_test_features.shape[0],doc2vec_test_features.shape[1]))
 
 # Encoding through prot_bert_bfd pretrained
-bert_train_features, bert_train_labels = get_bert_features_labels(pos_train_data, neg_train_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
-bert_valid_features, bert_valid_labels = get_bert_features_labels(pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
-bert_test_features, bert_test_labels = get_bert_features_labels(pos_test_data, neg_test_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
+#bert_train_features, bert_train_labels = get_bert_features_labels(pos_train_data, neg_train_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
+#bert_valid_features, bert_valid_labels = get_bert_features_labels(pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
+#bert_test_features, bert_test_labels = get_bert_features_labels(pos_test_data, neg_test_data, 'Rostlab/prot_bert_bfd', MAX_LEN=50)
 
 # Labels to nunpy format
 train_labels = np.array(pc6_train_labels)
@@ -50,7 +50,6 @@ from sklearn import ensemble
 import joblib
 from model import train_pc6_model
 from model import train_doc2vec_model
-from bert_prediction import get_bert_prediction, train_bert_model, run_bert_prediction
 from model_tools import learning_curve, evalution_metrics
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
@@ -119,11 +118,12 @@ doc2vec_cnn_model = load_model('./ensemble_model/doc2vec/doc2vec_best_weights.h5
 doc2vec_cnn_labels_score = doc2vec_cnn_model.predict(reshape_doc2vec_valid_features)
 doc2vec_cnn_res = evalution_metrics(doc2vec_valid_labels, doc2vec_cnn_labels_score)
 
+from bert_prediction import get_bert_prediction, run_bert_prediction
 # BERT model
-bert_labels_score, bert_thres = get_bert_prediction(pos_train_data, neg_train_data, pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
-#bert_labels_score = run_bert_prediction(pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
+#bert_labels_score, bert_thres = get_bert_prediction(pos_train_data, neg_train_data, pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
+bert_labels_score, bert_thres = run_bert_prediction(pos_valid_data, neg_valid_data, 'Rostlab/prot_bert_bfd', './ensemble_model/bert', MAX_LEN=50)
 bert_labels_score = np.array(bert_labels_score)
-bert_res = evalution_metrics(bert_valid_labels, bert_labels_score)
+bert_res = evalution_metrics(pc6_valid_labels, bert_labels_score)
 
 # Find CNN model threshold
 from model_tools import evalution_metrics, findThresIndex
